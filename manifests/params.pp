@@ -27,6 +27,7 @@ class serial_console::params {
           $class_getty = undef
           $cmd_refresh_init = undef
           $cmd_refresh_bootloader = undef
+          $cmd_refresh_service = undef
         }
 
         '7': {
@@ -35,11 +36,11 @@ class serial_console::params {
           $class_getty = undef
           $cmd_refresh_init = undef
           $cmd_refresh_bootloader = undef
+          $cmd_refresh_service = undef
         }
 
         default: {
-          fail("Unsupported OS version: \
-${::operatingsystem} ${::operatingsystemmajrelease}")
+          fail("Unsupported OS version: ${::operatingsystem} ${::operatingsystemmajrelease}")
         }
       }
     }
@@ -52,6 +53,7 @@ ${::operatingsystem} ${::operatingsystemmajrelease}")
           $class_getty = 'inittab'
           $cmd_refresh_init = '/sbin/telinit q'
           $cmd_refresh_bootloader = '/usr/sbin/update-grub'
+          $cmd_refresh_service = undef
         }
 
         '8','9': {
@@ -60,11 +62,11 @@ ${::operatingsystem} ${::operatingsystemmajrelease}")
           $class_getty = undef
           $cmd_refresh_init = undef
           $cmd_refresh_bootloader = '/usr/sbin/update-grub'
+          $cmd_refresh_service = undef
         }
 
         default: {
-          fail("Unsupported OS version: \
-${::operatingsystem} ${::operatingsystemmajrelease}")
+          fail("Unsupported OS version: ${::operatingsystem} ${::operatingsystemmajrelease}")
         }
       }
     }
@@ -77,11 +79,12 @@ ${::operatingsystem} ${::operatingsystemmajrelease}")
           $class_getty = undef
           $cmd_refresh_init = undef
           $cmd_refresh_bootloader = '/usr/sbin/update-grub'
+          # Just start, don't manage as a service type, as we are not in control of it
+          $cmd_refresh_service = "/bin/systemctl start serial-getty@${$ttys}.service"
         }
 
         default: {
-          fail("Unsupported OS version: \
-${::operatingsystem} ${::operatingsystemmajrelease}")
+          fail("Unsupported OS version: ${::operatingsystem} ${::operatingsystemmajrelease}")
         }
       }
     }
