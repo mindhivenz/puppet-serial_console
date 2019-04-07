@@ -1,0 +1,10 @@
+# Use default_module_facts.yml for module specific facts.
+#
+# Facts specified here will override the values provided by rspec-puppet-facts.
+---
+ipaddress: "172.16.254.254"
+is_pe: false
+macaddress: "AA:AA:AA:AA:AA:AA"
+
+serialports: ['ttyS0', 'ttyS4']
+grub1conf: "/etc/grub.conf"

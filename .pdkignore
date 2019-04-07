@@ -3,8 +3,9 @@
 .metadata
 .yardoc
 .yardwarns
+*.iml
 /.bundle/
-/.idea/workspace.xml
+/.idea/
 /.vagrant/
 /coverage/
 /bin/
@@ -21,3 +22,16 @@
 /convert_report.txt
 /update_report.txt
 .DS_Store
+/appveyor.yml
+/.fixtures.yml
+/Gemfile
+/.gitattributes
+/.gitignore
+/.gitlab-ci.yml
+/.pdkignore
+/Rakefile
+/.rspec
+/.rubocop.yml
+/.travis.yml
+/.yardopts
+/spec/

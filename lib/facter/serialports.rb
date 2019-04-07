@@ -11,20 +11,20 @@
 # Caveats:
 #   Curently only Linux is supported.
 #
-Facter.add("serialports") do
+Facter.add('serialports') do
   confine :kernel => :linux
   setcode do
     ports = []
 
     fn = '/proc/tty/driver/serial'
-    if File.exists?(fn)
+    if File.exist?(fn)
       File.open(fn).each do |line|
         # serinfo:1.0 driver revision:
         # 0: uart:16550A port:000003F8 irq:4 tx:0 rx:0
         # 1: uart:16550A port:000002F8 irq:3 tx:6574 rx:0 RTS|DTR
         # 2: uart:unknown port:000003E8 irq:4
         # 3: uart:unknown port:000002E8 irq:3
-        if (line =~ /^(\d+): uart:(\w+) /) and ($2 != 'unknown')
+        if (line =~ /^(\d+): uart:(\w+) /) && ($2 != 'unknown')
           ports << "ttyS#{$1}"
         end
       end
@@ -34,13 +34,13 @@ Facter.add("serialports") do
   end
 end
 
-Facter.add("usbserialports") do
+Facter.add('usbserialports') do
   confine :kernel => :linux
   setcode do
     ports = []
 
     fn = '/proc/tty/driver/usbserial'
-    if File.exists?(fn)
+    if File.exist?(fn)
       File.open(fn).each do |line|
         # usbserinfo:1.0 driver:2.0
         # 0: module:usb_serial_simple name:"suunto" vendor:0fcf product:1008 num_ports:1 port:0 path:usb-0000:00:1a.0-1.1.1.2

@@ -5,7 +5,7 @@ class serial_console::params {
   $enable_login = true
 
   # choose last available port
-  if size($::serialports) > 1 {
+  if length($::serialports) > 1 {
     $ttys = $::serialports[-1]
   } else {
     $ttys = 'ttyS0'
