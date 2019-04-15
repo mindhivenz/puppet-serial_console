@@ -1,5 +1,8 @@
 # Puppet module for system serial console setup
 
+Forked from [CERIT-SC project](https://github.com/CERIT-SC/puppet-serial_console) 
+as that seems to be abandoned. 
+
 This module configures system for serial console
 access (boot loader, kernel and login)
 
@@ -7,11 +10,11 @@ access (boot loader, kernel and login)
 
 Module has been tested on:
 
-* Puppet 3.6
-* OS:
-* Debian 6,7,8,9
-* Ubuntu 18.04
-* RHEL/CentOS 6,7
+* Puppet 5.5
+* OSes:
+    * Ubuntu 18.04
+    * Debian 6 - 9
+    * RHEL/CentOS 6 - 7
 
 Required modules:
 
@@ -65,7 +68,4 @@ Returns absolute path to GRUB 1 configuration file.
 
 * Steven Bakker <steven.bakker@ams-ix.net>
 * Matthew Rásó-Barnett <matthewrasobarnett@gmail.com>
-
-***
-
-CERIT Scientific Cloud, <support@cerit-sc.cz>
+* Damon Maria damon@mindhive.co.nz

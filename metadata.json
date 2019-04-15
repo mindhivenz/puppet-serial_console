@@ -1,12 +1,12 @@
 {
-  "name": "ceritsc-serial_console",
-  "version": "0.9.11",
-  "author": "ceritsc",
+  "name": "mindhive-serial_console",
+  "version": "0.10.0",
+  "author": "mindhive",
   "summary": "System serial console setup",
   "license": "MIT",
-  "source": "https://github.com/CERIT-SC/puppet-serial_console.git",
-  "project_page": "https://github.com/CERIT-SC/puppet-serial_console",
-  "issues_url": "https://github.com/CERIT-SC/puppet-serial_console/issues",
+  "source": "https://github.com/mindhivenz/puppet-serial_console.git",
+  "project_page": "https://github.com/mindhivenz/puppet-serial_console",
+  "issues_url": "https://github.com/mindhivenz/puppet-serial_console/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
