@@ -12,4 +12,11 @@ class serial_console::refresh {
       refreshonly => true,
     }
   }
+
+  unless empty($::serial_console::params::cmd_refresh_service) {
+    exec { 'serial_console-refresh-bootloader':
+      command     => $::serial_console::params::cmd_refresh_service,
+      refreshonly => true,
+    }
+  }
 }
