@@ -1,64 +1,51 @@
 class serial_console (
-  $enable                 = $serial_console::params::enable,
-  $enable_kernel          = $serial_console::params::enable_kernel,
-  $enable_bootloader      = $serial_console::params::enable_bootloader,
-  $enable_login           = $serial_console::params::enable_login,
-  $tty                    = $serial_console::params::tty,
-  $ttys                   = $serial_console::params::ttys,
-  $speed                  = $serial_console::params::speed,
-  $term_type              = $serial_console::params::term_type,
-  $runlevels              = $serial_console::params::runlevels,
-  $bootloader_timeout     = $serial_console::params::bootloader_timeout,
-  $logout_timeout         = $serial_console::params::logout_timeout,
-  $class_kernel           = $serial_console::params::class_kernel,
-  $class_bootloader       = $serial_console::params::class_bootloader,
-  $class_getty            = $serial_console::params::class_getty,
-  $cmd_refresh_init       = $serial_console::params::cmd_refresh_init,
-  $cmd_refresh_bootloader = $serial_console::params::cmd_refresh_bootloader
-) inherits serial_console::params {
+  Enum[present, absent] $ensure        = present,
+  Boolean $enable_kernel               = true,
+  Boolean $enable_bootloader           = true,
+  Optional[Pattern[/^tty(\d+)$/]] $tty = 'tty0',
+  Pattern[/^ttyS(\d+)$/] $ttys         = $facts['serialports'][-1],
+  Integer $speed                       = 115200,
+  Optional[Integer] $logout_timeout    = undef,
+  Optional[String] $cmd_refresh_kernel = "/bin/systemctl restart serial-getty@${$ttys}.service",
+) {
 
-  validate_bool($enable, $enable_kernel, $enable_bootloader, $enable_login)
-  validate_string($ttys, $runlevels)
-  validate_re("${speed}", '^\d+$')
-  validate_re("${runlevels}", '^\d+$')
-  validate_re("${bootloader_timeout}", '^\d+$')
-  validate_re("${logout_timeout}", '^\d+$')
-
-  unless empty($cmd_refresh_init) {
-    validate_absolute_path($cmd_refresh_init)
-  }
-
-  unless empty($cmd_refresh_bootloader) {
-    validate_absolute_path($cmd_refresh_bootloader)
-  }
-
-  # validate ttys and extract id
-  validate_re($ttys, '^ttyS(\d+)$')
-  $_ttys_id = regsubst($ttys,'^ttyS(\d+)$','\1')
-  validate_re($_ttys_id, '^\d+$')
-
-  if ! ($ttys in $facts['serialports']) {
+  if !($ttys in $facts['serialports']) {
     err("Invalid serial port '${ttys}'")
+  } else {
 
-  } elsif $enable {
-    # kernel serial console
-    if $enable_kernel and ! empty($class_kernel) {
-      contain "::serial_console::kernel::${class_kernel}"
+    kernel_parameter { 'console':
+      ensure => if $enable_kernel { $ensure } else { 'absent' },
+      value  => if $tty { [$tty] } else { [] } + ["${ttys},${speed}"],
     }
 
-    # GRUB over serial console
-    if $enable_bootloader and ! empty($class_bootloader) {
-      contain "::serial_console::bootloader::${class_bootloader}"
+    unless empty($cmd_refresh_kernel) {
+      exec { 'serial_console-refresh-kernel':
+        command     => $cmd_refresh_kernel,
+        refreshonly => true,
+        subscribe   => Kernel_parameter['console'],
+      }
     }
 
-    # "login" over serial console
-    if $enable_login and ! empty($class_getty) {
-      contain "::serial_console::getty::${class_getty}"
+    $_ttys_id = regsubst($ttys, '^ttyS(\d+)$', '\1')
+    grub_config { 'GRUB_TERMINAL':
+      ensure => if $enable_bootloader { $ensure } else { 'absent' },
+      value  => 'console serial',
+    }
+    grub_config { 'GRUB_SERIAL_COMMAND':
+      ensure => if $enable_bootloader { $ensure } else { 'absent' },
+      value  => "serial --unit=${_ttys_id} --speed=${speed}"
     }
 
-    # shell login profile for automatic logout on inactivity
-    contain ::serial_console::autologout
+    $content = if $logout_timeout {
+      epp('serial_console/ttyS_autologout.sh.epp', { timeout => $logout_timeout })
+    } else {
+      ''
+    }
+    file { '/etc/profile.d/ttyS_autologout.sh':
+      ensure  => if $logout_timeout and $ensure == present { 'file' } else { 'absent' },
+      content => $content,
+    }
+
   }
 
-  contain ::serial_console::refresh
 }

@@ -1,11 +1,28 @@
 require 'spec_helper'
 
 describe 'serial_console' do
-  on_supported_os.each do |os, os_facts|
-    context "on #{os}" do
-      let(:facts) { os_facts }
+  let(:facts) do
+    {
+      'serialports' => %w[ttyS0 ttyS1],
+    }
+  end
 
-      it { is_expected.to compile }
+  context 'Happy day' do
+    it do
+      is_expected.to compile
     end
   end
+
+  context 'Absent' do
+    let(:params) do
+      {
+        'ensure' => 'absent',
+      }
+    end
+
+    it do
+      is_expected.to compile
+    end
+  end
+
 end
