@@ -1,6 +1,6 @@
 {
   "name": "mindhive-serial_console",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "mindhive",
   "summary": "System serial console setup for SOL",
   "license": "MIT",

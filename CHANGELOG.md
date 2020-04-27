@@ -1,4 +1,8 @@
 
+## 2020-04-27 - Release 1.0.1
+
+- Changed reboot default to false
+
 ## 2020-04-27 - Release 1.0.0
 
 - Remove old OS support so only grub2 needs to be supported

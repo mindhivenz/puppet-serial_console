@@ -2,7 +2,7 @@ class serial_console (
   Enum[present, absent] $ensure        = present,
   Boolean $enable_kernel               = true,
   Boolean $enable_bootloader           = true,
-  Boolean $reboot                      = true,
+  Boolean $reboot                      = false,
   Optional[Pattern[/^tty(\d+)$/]] $tty = 'tty0',
   Pattern[/^ttyS(\d+)$/] $ttys         = $facts['serialports'][-1],
   Integer $speed                       = 115200,

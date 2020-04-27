@@ -1,10 +1,7 @@
 # Puppet module for system serial console setup
 
-Forked from [CERIT-SC project](https://github.com/CERIT-SC/puppet-serial_console) 
-as that seems to be abandoned. 
-
 This module configures system for serial console
-access (boot loader and kernel), usually for Serial-over-LAN (SOL).
+access (boot loader and kernel), usable through Serial-over-LAN (SOL).
 
 ### Requirements
 
@@ -33,7 +30,7 @@ class { serial_console:
   ensure            => present,  # add or remove configuration
   enable_kernel     => true,     # enable kernel config
   enable_bootloader => true,     # enable bootloader config
-  reboot            => true,     # reboot if kernel parameters are changed (SOL won't work until reboot)
+  reboot            => false,    # reboot if kernel parameters are changed (SOL won't work until reboot)
   tty               => 'tty0',   # text console name
   ttys              => 'ttyS0',  # serial device name without path, defaults to last ttyS* with a UART 
   speed             => 115200,   # serial port speed
