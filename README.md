@@ -4,22 +4,19 @@ Forked from [CERIT-SC project](https://github.com/CERIT-SC/puppet-serial_console
 as that seems to be abandoned. 
 
 This module configures system for serial console
-access (boot loader, kernel and login)
+access (boot loader and kernel), usually for Serial-over-LAN (SOL).
 
 ### Requirements
 
 Module has been tested on:
 
-* Puppet 5.5
+* Puppet:
+    * 5.5
+    * 6.14
 * OSes:
     * Ubuntu 18.04
-    * Debian 6 - 9
-    * RHEL/CentOS 6 - 7
-
-Required modules:
-
-* puppetlabs-stdlib
-* herculesteam-augeasproviders\_grub
+    * Debian 8 - 9
+    * RHEL/CentOS 7
 
 # Quick Start
 
@@ -32,20 +29,15 @@ include serial_console
 Full configuration options:
 
 ```puppet
-class { 'serial_console':
-  enable                 => false|true,  # enable configuration
-  enable_kernel          => false|true,  # enable kernel config.
-  enable_bootloader      => false|true,  # enable bootloader config.
-  enable_login           => false|true,  # enable login over serial config.
-  tty                    => '...',       # text console name
-  ttys                   => '...',       # serial device name without path, e.g. ttyS0
-  speed                  => ...,         # serial port speed, e.g. 115200
-  term_type              => ...,         # serial terminal type, e.g. vt100
-  runlevels              => '...',       # run levels for login over serial
-  bootloader_timeout     => '...'        # bootloader timeout
-  logout_timeout         => '...',       # interactive session timeout
-  cmd_refresh_init       => '...',       # command to refresh init
-  cmd_refresh_bootloader => '...',       # command to refresh bootloader
+class { serial_console:
+  ensure            => present,  # add or remove configuration
+  enable_kernel     => true,     # enable kernel config
+  enable_bootloader => true,     # enable bootloader config
+  reboot            => true,     # reboot if kernel parameters are changed (SOL won't work until reboot)
+  tty               => 'tty0',   # text console name
+  ttys              => 'ttyS0',  # serial device name without path, defaults to last ttyS* with a UART 
+  speed             => 115200,   # serial port speed
+  logout_timeout    => undef,    # interactive session timeout in seconds (sets TMOUT)
 }
 ```
 
@@ -53,16 +45,12 @@ class { 'serial_console':
 
 ### serialports, usbserialports
 
-Returns list of available (USB) serial port device names
-(without /dev prefix). E.g.:
+List of available serial port device names
+(without /dev prefix). For example:
 
 ```
 ["ttyS0","ttyS1"]
 ```
-
-### $::grub1conf
-
-Returns absolute path to GRUB 1 configuration file.
 
 # Contributors
 

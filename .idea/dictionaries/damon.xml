@@ -2,6 +2,7 @@
   <dictionary name="damon">
     <words>
       <w>puppetlabs</w>
+      <w>serialports</w>
     </words>
   </dictionary>
 </component>

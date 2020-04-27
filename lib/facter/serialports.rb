@@ -12,7 +12,7 @@
 #   Curently only Linux is supported.
 #
 Facter.add('serialports') do
-  confine :kernel => :linux
+  confine kernel: :linux
   setcode do
     ports = []
 
@@ -24,8 +24,8 @@ Facter.add('serialports') do
         # 1: uart:16550A port:000002F8 irq:3 tx:6574 rx:0 RTS|DTR
         # 2: uart:unknown port:000003E8 irq:4
         # 3: uart:unknown port:000002E8 irq:3
-        if (line =~ /^(\d+): uart:(\w+) /) && ($2 != 'unknown')
-          ports << "ttyS#{$1}"
+        if (line =~ %r{^(\d+): uart:(\w+) }) && (Regexp.last_match(2) != 'unknown')
+          ports << "ttyS#{Regexp.last_match(1)}"
         end
       end
     end
@@ -35,7 +35,7 @@ Facter.add('serialports') do
 end
 
 Facter.add('usbserialports') do
-  confine :kernel => :linux
+  confine kernel: :linux
   setcode do
     ports = []
 
@@ -45,8 +45,8 @@ Facter.add('usbserialports') do
         # usbserinfo:1.0 driver:2.0
         # 0: module:usb_serial_simple name:"suunto" vendor:0fcf product:1008 num_ports:1 port:0 path:usb-0000:00:1a.0-1.1.1.2
         # 1: module:pl2303 name:"pl2303" vendor:0557 product:2008 num_ports:1 port:0 path:usb-0000:00:1a.0-1.1.1.3
-        if line =~ /^(\d+): module:/
-          ports << "ttyUSB#{$1}"
+        if line =~ %r{^(\d+): module:}
+          ports << "ttyUSB#{Regexp.last_match(1)}"
         end
       end
     end

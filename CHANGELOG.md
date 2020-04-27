@@ -1,5 +1,16 @@
 
+## 2020-04-27 - Release 1.0.0
+
+- Remove old OS support so only grub2 needs to be supported
+- Massive simplification
+- Reboot if kernel parameters changed, can be disabled with `reboot => false`
+- Allow removal with `ensure => absent`
+
+## 2019-03-28 - Release 0.10.0
+
+- Forked from https://github.com/CERIT-SC/puppet-serial_console
 - Support Ubuntu 18.04
+- Convert to PDK
 
 ## 2017-10-31 - Release 0.9.11
 
