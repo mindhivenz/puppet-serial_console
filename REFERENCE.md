@@ -47,7 +47,7 @@ Data type: `Boolean`
 
 
 
-Default value: `true`
+Default value: `false`
 
 ##### `tty`
 
