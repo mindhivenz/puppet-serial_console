@@ -3,7 +3,6 @@
 ---
 fixtures:
   forge_modules:
-    stdlib: puppetlabs/stdlib
     augeasproviders_grub: herculesteam/augeasproviders_grub
     augeasproviders_core: herculesteam/augeasproviders_core
     reboot: puppetlabs/reboot
