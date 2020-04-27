@@ -51,7 +51,7 @@ class { 'serial_console':
 
 # Facts
 
-### $::serialports, $::usbserialports
+### serialports, usbserialports
 
 Returns list of available (USB) serial port device names
 (without /dev prefix). E.g.:

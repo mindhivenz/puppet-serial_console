@@ -37,7 +37,7 @@ class serial_console (
   $_ttys_id = regsubst($ttys,'^ttyS(\d+)$','\1')
   validate_re($_ttys_id, '^\d+$')
 
-  if ! ($ttys in $::serialports) {
+  if ! ($ttys in $facts['serialports']) {
     err("Invalid serial port '${ttys}'")
 
   } elsif $enable {

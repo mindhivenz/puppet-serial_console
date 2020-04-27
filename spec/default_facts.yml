@@ -3,8 +3,8 @@
 # Facts specified here will override the values provided by rspec-puppet-facts.
 ---
 ipaddress: "172.16.254.254"
+ipaddress6: "FE80:0000:0000:0000:AAAA:AAAA:AAAA"
 is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"
-
-serialports: ['ttyS0', 'ttyS4']
-grub1conf: "/etc/grub.conf"
+serialports:
+  - ttyS1
