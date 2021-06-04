@@ -43,6 +43,7 @@ class serial_console (
           Grub_config['GRUB_TERMINAL'],
           Grub_config['GRUB_SERIAL_COMMAND'],
         ],
+        apply     => finished,
       }
     }
 
