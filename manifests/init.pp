@@ -3,12 +3,11 @@ class serial_console (
   Boolean $enable_kernel               = true,
   Boolean $enable_bootloader           = true,
   Boolean $reboot                      = false,
+  Integer $speed                       = 115200,
   Optional[Pattern[/^tty(\d+)$/]] $tty = 'tty0',
   Pattern[/^ttyS(\d+)$/] $ttys         = $facts['serialports'][-1],
-  Integer $speed                       = 115200,
   Optional[Integer] $logout_timeout    = undef,
 ) {
-
   if !($ttys in $facts['serialports']) {
     err("Invalid serial port '${ttys}'")
   } else {
@@ -46,7 +45,5 @@ class serial_console (
         apply     => finished,
       }
     }
-
   }
-
 }
