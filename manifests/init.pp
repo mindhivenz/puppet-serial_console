@@ -3,15 +3,14 @@ class serial_console (
   Boolean $enable_kernel               = true,
   Boolean $enable_bootloader           = true,
   Boolean $reboot                      = false,
-  Optional[Pattern[/^tty(\d+)$/]] $tty = 'tty0',
-  Pattern[/^ttyS(\d+)$/] $ttys         = $facts['serialports'][-1],
   Integer $speed                       = 115200,
+  Optional[Pattern[/^tty(\d+)$/]] $tty = 'tty0',
+  Optional[Pattern[/^ttyS(\d+)$/]] $ttys = $facts['serialports'][-1],
   Optional[Integer] $logout_timeout    = undef,
 ) {
-
   if !($ttys in $facts['serialports']) {
     err("Invalid serial port '${ttys}'")
-  } else {
+  } elsif defined($ttys) {
     $ttys_id = regsubst($ttys, '^ttyS(\d+)$', '\1')
 
     kernel_parameter { 'console':
@@ -46,7 +45,7 @@ class serial_console (
         apply     => finished,
       }
     }
-
+  } else {
+    notice("No ttys set for serial_console, ttys found:${facts['serialports']}")
   }
-
 }
