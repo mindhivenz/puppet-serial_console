@@ -3,6 +3,5 @@
 ---
 fixtures:
   forge_modules:
-    augeasproviders_grub: herculesteam/augeasproviders_grub
-    augeasproviders_core: herculesteam/augeasproviders_core
+    augeasproviders_grub: puppet/augeasproviders_grub
     reboot: puppetlabs/reboot

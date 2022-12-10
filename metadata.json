@@ -9,8 +9,8 @@
   "issues_url": "https://github.com/mindhivenz/puppet-serial_console/issues",
   "dependencies": [
     {
-      "name": "herculesteam/augeasproviders_grub",
-      "version_requirement": ">= 2.0.1 < 4.0.0"
+      "name": "puppet/augeasproviders_grub",
+      "version_requirement": ">= 2.0.1 < 5.0.0"
     },
     {
       "name": "puppetlabs/reboot",
