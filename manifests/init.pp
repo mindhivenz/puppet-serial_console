@@ -10,7 +10,7 @@ class serial_console (
 ) {
   if !($ttys in $facts['serialports']) {
     err("Invalid serial port '${ttys}'")
-  } elsif defined($ttys) {
+  } elsif $ttys {
     $ttys_id = regsubst($ttys, '^ttyS(\d+)$', '\1')
 
     kernel_parameter { 'console':

@@ -11,6 +11,9 @@ describe 'serial_console' do
     context 'Happy day' do
       it do
         is_expected.to compile
+        is_expected.to contain_kernel_parameter('console')
+        is_expected.to contain_grub_config('GRUB_TERMINAL')
+        is_expected.to contain_grub_config('GRUB_SERIAL_COMMAND')
       end
     end
 
@@ -36,6 +39,9 @@ describe 'serial_console' do
     context 'Happy day' do
       it do
         is_expected.to compile
+        is_expected.not_to contain_kernel_parameter('console')
+        is_expected.not_to contain_grub_config('GRUB_TERMINAL')
+        is_expected.not_to contain_grub_config('GRUB_SERIAL_COMMAND')
       end
     end
 

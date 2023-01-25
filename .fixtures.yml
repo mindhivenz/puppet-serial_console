@@ -3,5 +3,6 @@
 ---
 fixtures:
   forge_modules:
+    augeasproviders_core: puppet/augeasproviders_core
     augeasproviders_grub: puppet/augeasproviders_grub
     reboot: puppetlabs/reboot
