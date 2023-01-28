@@ -1,19 +1,23 @@
+## 2023-01-28 - Release 1.2.1
+
+- [Puppet7 seems to prefer the direct if syntax](https://github.com/mindhivenz/puppet-serial_console/pull/2),
+  thanks again [Pat Riehecky](https://github.com/jcpunk)
 
 ## 2022-12-10 - Release 1.2.0
 
-- If ttys is unset, don't crash catalog, thanks [Pat Riehecky](https://github.com/jcpunk) 
+- If ttys is unset, don't crash catalog, thanks [Pat Riehecky](https://github.com/jcpunk)
 - Switch to puppet/augeasproviders_grub
 - Support:
-  - Puppet 7
-  - Ubuntu 22.04
+    - Puppet 7
+    - Ubuntu 22.04
 
 ## 2021-08-21 - Release 1.1.0
 
 - Only reboot when finished
 - Support:
-  - puppetlabs/reboot 4.x
-  - Puppet 6
-  - Ubuntu 20.04
+    - puppetlabs/reboot 4.x
+    - Puppet 6
+    - Ubuntu 20.04
 
 ## 2020-04-27 - Release 1.0.1
 
