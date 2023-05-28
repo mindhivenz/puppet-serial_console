@@ -1,3 +1,8 @@
+## 2023-05-28 - Release 1.3.0
+
+- Support:
+  - puppetlabs/reboot: 5.x 
+
 ## 2023-01-28 - Release 1.2.1
 
 - [Puppet7 seems to prefer the direct if syntax](https://github.com/mindhivenz/puppet-serial_console/pull/2),
