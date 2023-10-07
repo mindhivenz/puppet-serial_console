@@ -1,7 +1,13 @@
+## 2023-05-28 - Release 1.4.0
+
+- Support:
+  - Puppet 8 
+  - puppet/augeasproviders_grub 5.x
+
 ## 2023-05-28 - Release 1.3.0
 
 - Support:
-  - puppetlabs/reboot: 5.x 
+  - puppetlabs/reboot 5.x 
 
 ## 2023-01-28 - Release 1.2.1
 
