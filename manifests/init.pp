@@ -1,12 +1,12 @@
 class serial_console (
-  Enum[present, absent] $ensure        = present,
-  Boolean $enable_kernel               = true,
-  Boolean $enable_bootloader           = true,
-  Boolean $reboot                      = false,
-  Integer $speed                       = 115200,
-  Optional[Pattern[/^tty(\d+)$/]] $tty = 'tty0',
+  Enum[present, absent] $ensure          = present,
+  Boolean $enable_kernel                 = true,
+  Boolean $enable_bootloader             = true,
+  Boolean $reboot                        = false,
+  Integer $speed                         = 115200,
+  Optional[Pattern[/^tty(\d+)$/]] $tty   = 'tty0',
   Optional[Pattern[/^ttyS(\d+)$/]] $ttys = $facts['serialports'][-1],
-  Optional[Integer] $logout_timeout    = undef,
+  Optional[Integer] $logout_timeout      = undef,
 ) {
   if !($ttys in $facts['serialports']) {
     err("Invalid serial port '${ttys}'")
