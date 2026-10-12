@@ -4,35 +4,48 @@ class serial_console (
   Boolean $enable_bootloader             = true,
   Boolean $reboot                        = false,
   Integer $speed                         = 115200,
-  Optional[Pattern[/^tty(\d+)$/]] $tty   = 'tty0',
-  Optional[Pattern[/^ttyS(\d+)$/]] $ttys = $facts['serialports'][-1],
+  Pattern[/^tty(\d+)$/] $tty             = 'tty0',
+  Optional[Pattern[/^ttyS(\d+)$/]] $ttys = $facts.dig('serialports', -1),
   Optional[Integer] $logout_timeout      = undef,
 ) {
-  if !($ttys in $facts['serialports']) {
+  $serialports = $facts['serialports'].lest || { [] }
+
+  if $ensure == present and !$ttys {
+    notice("No ttys set for serial_console, ttys found: ${serialports}")
+  } elsif $ensure == present and !($ttys in $serialports) {
     err("Invalid serial port '${ttys}'")
-  } elsif $ttys {
-    $ttys_id = regsubst($ttys, '^ttyS(\d+)$', '\1')
+  } else {
+    $kernel_ensure = $enable_kernel ? {
+      true  => $ensure,
+      false => absent,
+    }
+    $bootloader_ensure = $enable_bootloader ? {
+      true  => $ensure,
+      false => absent,
+    }
+    $autologout_ensure = ($ensure == present and $logout_timeout) ? {
+      true  => file,
+      false => absent,
+    }
+    $console = $ttys.then |$port| { [$tty, "${port},${speed}"] }
+    $serial_command = $ttys.then |$port| { "serial --unit=${regsubst($port, '^ttyS', '')} --speed=${speed}" }
+    $autologout_script = $logout_timeout.then |$timeout| { epp('serial_console/ttyS_autologout.sh.epp', { timeout => $timeout }) }
 
     kernel_parameter { 'console':
-      ensure => if $enable_kernel { $ensure } else { 'absent' },
-      value  => if $tty { [$tty] } else { [] } + ["${ttys},${speed}"],
+      ensure => $kernel_ensure,
+      value  => $console,
     }
     grub_config { 'GRUB_TERMINAL':
-      ensure => if $enable_bootloader { $ensure } else { 'absent' },
+      ensure => $bootloader_ensure,
       value  => 'console serial',
     }
     grub_config { 'GRUB_SERIAL_COMMAND':
-      ensure => if $enable_bootloader { $ensure } else { 'absent' },
-      value  => "serial --unit=${ttys_id} --speed=${speed}",
+      ensure => $bootloader_ensure,
+      value  => $serial_command,
     }
-
     file { '/etc/profile.d/ttyS_autologout.sh':
-      ensure  => if $logout_timeout and $ensure == present { 'file' } else { 'absent' },
-      content => if $logout_timeout {
-        epp('serial_console/ttyS_autologout.sh.epp', { timeout => $logout_timeout })
-      } else {
-        ''
-      },
+      ensure  => $autologout_ensure,
+      content => $autologout_script,
     }
 
     if $reboot {
@@ -45,7 +58,5 @@ class serial_console (
         apply     => finished,
       }
     }
-  } else {
-    notice("No ttys set for serial_console, ttys found:${facts['serialports']}")
   }
 }

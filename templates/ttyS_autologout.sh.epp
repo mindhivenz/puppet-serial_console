@@ -4,5 +4,4 @@
 # This file is managed by Puppet!
 if tty | grep -Eq '\/ttyS[0-9]+$'; then
     export TMOUT="<%= $timeout %>"
-    set autologout="${TMOUT}"
 fi

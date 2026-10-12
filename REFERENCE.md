@@ -18,16 +18,16 @@ The serial_console class.
 
 The following parameters are available in the `serial_console` class:
 
-* [`ensure`](#ensure)
-* [`enable_kernel`](#enable_kernel)
-* [`enable_bootloader`](#enable_bootloader)
-* [`reboot`](#reboot)
-* [`speed`](#speed)
-* [`tty`](#tty)
-* [`ttys`](#ttys)
-* [`logout_timeout`](#logout_timeout)
+* [`ensure`](#-serial_console--ensure)
+* [`enable_kernel`](#-serial_console--enable_kernel)
+* [`enable_bootloader`](#-serial_console--enable_bootloader)
+* [`reboot`](#-serial_console--reboot)
+* [`speed`](#-serial_console--speed)
+* [`tty`](#-serial_console--tty)
+* [`ttys`](#-serial_console--ttys)
+* [`logout_timeout`](#-serial_console--logout_timeout)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-serial_console--ensure"></a>`ensure`
 
 Data type: `Enum[present, absent]`
 
@@ -35,31 +35,31 @@ Data type: `Enum[present, absent]`
 
 Default value: `present`
 
-##### <a name="enable_kernel"></a>`enable_kernel`
+##### <a name="-serial_console--enable_kernel"></a>`enable_kernel`
 
 Data type: `Boolean`
 
 
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="enable_bootloader"></a>`enable_bootloader`
-
-Data type: `Boolean`
-
-
-
-Default value: ``true``
-
-##### <a name="reboot"></a>`reboot`
+##### <a name="-serial_console--enable_bootloader"></a>`enable_bootloader`
 
 Data type: `Boolean`
 
 
 
-Default value: ``false``
+Default value: `true`
 
-##### <a name="speed"></a>`speed`
+##### <a name="-serial_console--reboot"></a>`reboot`
+
+Data type: `Boolean`
+
+
+
+Default value: `false`
+
+##### <a name="-serial_console--speed"></a>`speed`
 
 Data type: `Integer`
 
@@ -67,27 +67,26 @@ Data type: `Integer`
 
 Default value: `115200`
 
-##### <a name="tty"></a>`tty`
+##### <a name="-serial_console--tty"></a>`tty`
 
-Data type: `Optional[Pattern[/^tty(\d+)$/]]`
+Data type: `Pattern[/^tty(\d+)$/]`
 
 
 
 Default value: `'tty0'`
 
-##### <a name="ttys"></a>`ttys`
+##### <a name="-serial_console--ttys"></a>`ttys`
 
 Data type: `Optional[Pattern[/^ttyS(\d+)$/]]`
 
 
 
-Default value: `$facts['serialports'][-1]`
+Default value: `$facts.dig('serialports', -1)`
 
-##### <a name="logout_timeout"></a>`logout_timeout`
+##### <a name="-serial_console--logout_timeout"></a>`logout_timeout`
 
 Data type: `Optional[Integer]`
 
 
 
-Default value: ``undef``
-
+Default value: `undef`

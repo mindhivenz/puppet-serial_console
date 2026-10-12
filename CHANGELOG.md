@@ -1,3 +1,13 @@
+## 2026-10-12 - Release 1.5.0
+
+- Hosts with no serial ports get a notice instead of an "Invalid serial port ''" error
+- `ensure => absent` removes the configuration even when the serial port is gone
+- Compiles when the serialports fact is missing
+- The autologout script no longer runs `set autologout=...`, which in sh/bash overwrote the login shell's positional parameters
+- Support:
+  - Puppet 7 and 8 only
+  - Ubuntu 20.04, 22.04 and 24.04 only
+
 ## 2023-05-28 - Release 1.4.0
 
 - Support:
